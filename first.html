@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Title3</title>
+<link rel="stylesheet" href="https://stackedit.io/res-min/themes/base.css" />
+<script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS_HTML"></script>
+</head>
+<body><div class="container"><pre class="prettyprint"><code class="language-cpp hljs "><span class="hljs-preprocessor">#include &lt;cstdio&gt;</span>
+<span class="hljs-preprocessor">#include &lt;iostream&gt;</span>
+<span class="hljs-preprocessor">#include &lt;vector&gt;</span>
+
+<span class="hljs-keyword">using</span> <span class="hljs-keyword">namespace</span> <span class="hljs-built_in">std</span>;
+
+<span class="hljs-keyword">typedef</span> <span class="hljs-stl_container"><span class="hljs-built_in">vector</span>&lt;<span class="hljs-keyword">int</span>&gt;</span> vec;
+<span class="hljs-keyword">typedef</span> <span class="hljs-stl_container"><span class="hljs-built_in">vector</span>&lt;vec&gt;</span> mat;
+<span class="hljs-keyword">typedef</span> <span class="hljs-keyword">long</span> <span class="hljs-keyword">long</span> ll;
+
+<span class="hljs-keyword">const</span> <span class="hljs-keyword">int</span> M = <span class="hljs-number">10000</span>;
+
+mat mul(mat &amp;A, mat &amp;B)
+{
+    mat C(A.size(), vec(B[<span class="hljs-number">0</span>].size()));
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; A.size(); i++)
+    {
+        <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> k = <span class="hljs-number">0</span>; k &lt; B.size(); k++)
+        {
+            <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> j = <span class="hljs-number">0</span>; j &lt; B[<span class="hljs-number">0</span>].size(); j++)
+            {
+                C[i][j] = (C[i][j] + A[i][k] * B[j][k]) % M;
+            }
+        }
+    }
+    <span class="hljs-keyword">return</span> C;
+}
+
+mat <span class="hljs-built_in">pow</span>(mat A, ll n)
+{
+    mat B(A.size(), vec(A.size()));
+    <span class="hljs-keyword">for</span> (<span class="hljs-keyword">int</span> i = <span class="hljs-number">0</span>; i &lt; A.size(); i++)
+    {
+        B[i][i] = <span class="hljs-number">1</span>;
+    }
+    <span class="hljs-keyword">while</span> (n &gt; <span class="hljs-number">0</span>)
+    {
+        <span class="hljs-keyword">if</span> (n &amp; <span class="hljs-number">1</span>)
+            B = mul(B, A);
+        A = mul(A, A);
+        n &gt;&gt;= <span class="hljs-number">1</span>;
+    }
+    <span class="hljs-keyword">return</span> B;
+}
+
+ll n;
+
+<span class="hljs-keyword">int</span> main()
+{
+    <span class="hljs-built_in">cin</span> &gt;&gt; n;
+    mat A(<span class="hljs-number">2</span>, vec(<span class="hljs-number">2</span>));
+    A[<span class="hljs-number">0</span>][<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;
+    A[<span class="hljs-number">0</span>][<span class="hljs-number">1</span>] = <span class="hljs-number">1</span>;
+    A[<span class="hljs-number">1</span>][<span class="hljs-number">0</span>] = <span class="hljs-number">1</span>;
+    A[<span class="hljs-number">1</span>][<span class="hljs-number">1</span>] = <span class="hljs-number">0</span>;
+    A = <span class="hljs-built_in">pow</span>(A, n);
+    <span class="hljs-built_in">printf</span>(<span class="hljs-string">"%d\n"</span>, A[<span class="hljs-number">1</span>][<span class="hljs-number">0</span>]);
+    <span class="hljs-keyword">return</span> <span class="hljs-number">0</span>;
+}
+</code></pre></div></body>
+</html>
